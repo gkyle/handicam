@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<video_source>0</video_source>
+<calibration_file>/home/kyle/code/registration/calib/1280-logitech/out_webcam_camera_data.xml</calibration_file>
+<image_width>1280</image_width>
+<image_height>720</image_height>
+<markerboard_width>6.8750000000000000e+00</markerboard_width>
+<markerboard_height>7.6250000000000000e+00</markerboard_height>
+<markerboard_offset>5.0000000000000000e-01</markerboard_offset>
+<markerboard_project_width>6.</markerboard_project_width>
+<markerboard_project_height>8.</markerboard_project_height>
+<focus_auto>0</focus_auto>
+<focus_absolute>40</focus_absolute>
+<exposure_auto>1</exposure_auto>
+<exposure_absolute>100</exposure_absolute>
+<zoom_absolute>100</zoom_absolute>
+</opencv_storage>
