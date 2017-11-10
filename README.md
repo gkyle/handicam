@@ -1,12 +1,12 @@
 # handicam
 
-Handicam is a prototype optical registration solution for Handibot. For more background, [http://www.kylescholz.com/wp/handicam-optical-registration-for-handibot/](see this blog post).
+Handicam is a prototype optical registration solution for Handibot. For more background, [see this blog post](http://www.kylescholz.com/wp/handicam-optical-registration-for-handibot/).
 
 ## Required Hardware
 
 Handibot
 
-Host CPU: Handicam can run on any machine that can run [http://www.opencv.org/](OpenCV), including Linux and Windows PCs. The current implementation has Linux-specific support for interactively controlling camera focus and exposure that are critical to capturing high-quality images and achieving precise registration (particularly under different lighting conditions). For Windows or platforms that don’t support [https://en.wikipedia.org/wiki/Video4Linux](V4L), you can manually control the camera settings with other tools.
+Host CPU: Handicam can run on any machine that can run [OpenCV](http://www.opencv.org/), including Linux and Windows PCs. The current implementation has Linux-specific support for interactively controlling camera focus and exposure that are critical to capturing high-quality images and achieving precise registration (particularly under different lighting conditions). For Windows or platforms that don’t support [V4L](https://en.wikipedia.org/wiki/Video4Linux), you can manually control the camera settings with other tools.
 
 The image matching operations performed are CPU-intense. While they can run on a Raspberry Pi, they’ll be quite slow.
 
@@ -17,7 +17,7 @@ Camera: I experimented with a few cameras and got the best results from Logitech
 
 Camera Mount: Homemade. *TODO: Share STL files.*
 
-Markerboard: Homemade. An acrylic plate with [https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html](Aruco markers) that are used to determine the position and orientation of the camera relative to the surface of the workpiece. I cut mine on a laser cutter from clear acrylic. It could be made from 1/8" plywood or MDF or Polyethylene instead. Aruco markers were printed onto adhesive paper and stuck to the surface. *TODO: Share DXF file.*
+Markerboard: Homemade. An acrylic plate with [Aruco markers](https://docs.opencv.org/3.1.0/d5/dae/tutorial_aruco_detection.html) that are used to determine the position and orientation of the camera relative to the surface of the workpiece. I cut mine on a laser cutter from clear acrylic. It could be made from 1/8" plywood or MDF or Polyethylene instead. Aruco markers were printed onto adhesive paper and stuck to the surface. *TODO: Share DXF file.*
 
 ## Required Software
 * CMake
@@ -30,7 +30,7 @@ Markerboard: Homemade. An acrylic plate with [https://docs.opencv.org/3.1.0/d5/d
 
 ### Calibration
 
-Before first use, you must generate a [https://docs.opencv.org/3.1.0/d4/d94/tutorial_camera_calibration.html](calibration profile) for your camera. /Suggestion:/
+Before first use, you must generate a [calibration profile](https://docs.opencv.org/3.1.0/d4/d94/tutorial_camera_calibration.html) for your camera. /Suggestion:/
 * See OpenCV guides for calibration.
 * Use the “capture” tool described below to capture 30+ still images from different positions as indicated in OpenCV docs. Capture these using the same resolution and manual focus settings that you will use later.
 * Make an XML file listing your captured image files, as indicated in the OpenCV docs.
