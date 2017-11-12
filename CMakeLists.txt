@@ -18,6 +18,7 @@ ADD_EXECUTABLE(stitch_stream
   markers.cpp
   stitcher.cpp
   config.cpp
+  source.cpp
   stitch_stream.cpp)
 TARGET_LINK_LIBRARIES(stitch_stream ${OpenCV_LIBS} glog::glog ${V4L2_LIBRARY})
 

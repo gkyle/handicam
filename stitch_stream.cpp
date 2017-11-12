@@ -1,17 +1,13 @@
-#include <opencv2/opencv.hpp>
-#include <opencv2/aruco.hpp>
-#include <opencv2/xfeatures2d.hpp>
 #include <math.h>
 
 #include "util.hpp"
 #include "markers.hpp"
 #include "config.hpp"
 #include "stitcher.hpp"
+#include "source.hpp"
 
 using namespace std;
 using namespace cv;
-
-const int SKIP_FRAMES = 5;
 
 vector<double> dmtime;
 
@@ -19,65 +15,6 @@ void showError(string error, UMat img) {
   LOG(ERROR) << error << endl;
   drawText(img, error, 2);
 }
-
-class Source {
-  public:
-  virtual Markers::Status nextImage(Markers markers, UMat& imgProj) = 0;
-  virtual bool done() {
-    return false;
-  };
-  virtual ~Source(){}
-};
-
-class VideoSource: public Source {
-  public:
-  VideoSource(VideoCapture vc) {
-    cap = vc;
-  }
-  virtual Markers::Status nextImage(Markers markers, UMat& imgProj) {
-    UMat img;
-    // Blow away any buffered frames so we don't lag.
-    for (int i=0; i<SKIP_FRAMES; i++) {
-      cap >> img;
-    }
-    //TODO: make debug mode
-    char buf [3];
-    sprintf(buf, "%03d", sequence++);
-    std::string filename = "stitchframe-" + to_string(0) + buf + ".jpeg";
-    cout << filename << endl;
-    imwrite(filename, img);
-
-    Markers::Status status = markers.getArucoOrientedImage(img, imgProj);
-    filename = "stitchproj-" + to_string(0) + buf + ".jpeg";
-    imwrite(filename, imgProj);
-    if (status == Markers::Status::OK && imgProj.cols == 0) {
-      status = Markers::Status::ERR;
-    }
-    return status;
-  }
-  VideoCapture cap;
-  int sequence = 0;
-};
-
-class ImageSource: public Source {
-  public:
-  ImageSource(vector<UMat> i) {
-    imgs = i;
-  }
-  Markers::Status nextImage(Markers markers, UMat& imgProj) {
-    UMat img = imgs.front();
-    imgs.erase(imgs.begin());
-    Markers::Status status = markers.getArucoOrientedImage(img, imgProj);
-    if (status == Markers::Status::OK && imgProj.cols == 0) {
-      status = Markers::Status::ERR;
-    }
-    return status;
-  }
-  virtual bool done() {
-    return (imgs.size()==0);
-  }
-  vector<UMat> imgs;
-};
 
 void stats() {
   int count = dmtime.size();
@@ -94,14 +31,6 @@ void stats() {
   LOG(INFO) << "MAX: " << max << endl;
   LOG(INFO) << "MIN: " << min << endl;
   LOG(INFO) << "MEAN: " << mean << endl;
-}
-
-// angle in degrees
-// TODO: move to util.cpp
-double angle(Mat R) {
-  double t = atan(R.at<float>(1,0) / R.at<float>(0,0));
-  double deg = t * (180/3.1415926535897);
-  return deg * -1;
 }
 
 IncrementalStitcher::Status checkTransform(Mat R, IncrementalStitcher& stitcher, Config& config) {

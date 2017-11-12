@@ -21,5 +21,6 @@ void saveOffsets(float gx, float gy);
 void getOffsets(float &gx, float &gy);
 float getAngle(Matx33f H);
 float getScale(Matx33f H);
+double angle(Mat R);
 
 #endif

@@ -1,13 +1,7 @@
-#include "opencv2/opencv.hpp"
-#include <opencv2/aruco.hpp>
 #include "util.hpp"
 #include "config.hpp"
 #include "markers.hpp"
 #include "stitcher.hpp"
-
-#include <libv4l2.h>
-#include <linux/videodev2.h>
-#include <fcntl.h>
 
 using namespace std;
 using namespace cv;

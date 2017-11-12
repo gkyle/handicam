@@ -129,3 +129,8 @@ void getOffsets(float &gx, float &gy) {
   }
 }
 
+double angle(Mat R) {
+  double t = atan(R.at<float>(1,0) / R.at<float>(0,0));
+  double deg = t * (180/3.1415926535897);
+  return deg * -1;
+}

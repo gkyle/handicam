@@ -1,6 +1,3 @@
-#include <opencv2/opencv.hpp>
-#include <opencv2/aruco.hpp>
-#include <opencv2/xfeatures2d.hpp>
 #include <math.h>
 
 #include "util.hpp"
@@ -79,27 +76,6 @@ int main( int argc, char** argv ) {
     cap.set(CV_CAP_PROP_FRAME_WIDTH, config.image_width);
     cap.set(CV_CAP_PROP_FRAME_HEIGHT, config.image_height);
     source = new VideoSource(cap);
-    // burn 5 seconds ... auto exposure...
-    // TODO: probably unecessary now.
-    /*
-    Mat junk;
-    for (int i=0; i<5*30; i++) {
-      cap >> junk;
-    }
-    */
-    /*
-    vector<UMat> imgs;
-    for(int i=1; i<argc; i++) {
-      UMat img = imread( argv[i]).getUMat(ACCESS_READ);
-      if (!img.cols) {
-	LOG(ERROR) << "Bad file: " << argv[i] << endl;
-	return -1;
-      }
-      LOG(INFO) << argv[i] << endl;
-      imgs.push_back(img);
-    }
-    source = new ImageSource(imgs);
-    */
   }
   
   UMat stitchedImg = imread(filename).getUMat(ACCESS_READ);
