@@ -269,10 +269,19 @@ string IncrementalStitcher::getError(IncrementalStitcher::Status status) {
     error = "Match error.";
     break;
   case IncrementalStitcher::Status::TOO_FEW_MATCHES_ERR:
-    error = "Insufficient matching features.";
+    error = "Insufficient matching features. Skipping.";
     break;
   case IncrementalStitcher::Status::EXCEEDS_SCALE_THRESHOLD_ERR:
-    error = "Match scale exceeds threshold.";
+    error = "Match scale exceeds threshold. Skipping.";
+    break;
+  case IncrementalStitcher::Status::EXCEEDS_X_THRESHOLD_ERR:
+    error = "Match DX exceeds threshold. Skipping.";
+    break;
+  case IncrementalStitcher::Status::EXCEEDS_Y_THRESHOLD_ERR:
+    error = "Match DY exceeds threshold. Skipping.";
+    break;
+  case IncrementalStitcher::Status::EXCEEDS_R_THRESHOLD_ERR:
+    error = "Match DR exceeds threshold. Skipping.";
     break;
   case IncrementalStitcher::Status::ESTIMATION_ERR:
     error = "Camera estimation error.";

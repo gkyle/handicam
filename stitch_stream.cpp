@@ -11,7 +11,6 @@
 using namespace std;
 using namespace cv;
 
-const int TARGET_WIDTH = 600;
 const int SKIP_FRAMES = 5;
 
 vector<double> dmtime;
@@ -97,11 +96,30 @@ void stats() {
   LOG(INFO) << "MEAN: " << mean << endl;
 }
 
-int main( int argc, char** argv ) {
-  google::InitGoogleLogging(argv[0]);
+// angle in degrees
+// TODO: move to util.cpp
+double angle(Mat R) {
+  double t = atan(R.at<float>(1,0) / R.at<float>(0,0));
+  double deg = t * (180/3.1415926535897);
+  return deg * -1;
+}
 
+IncrementalStitcher::Status checkTransform(Mat R, IncrementalStitcher& stitcher, Config& config) {
+  IncrementalStitcher::Status status = IncrementalStitcher::Status::OK;
+  if (abs(R.at<float>(0,2)) > config.image_width/3) {
+    status = IncrementalStitcher::Status::EXCEEDS_X_THRESHOLD_ERR;
+  } else if (abs(R.at<float>(1,2)) > config.image_height/3) {
+    status = IncrementalStitcher::Status::EXCEEDS_X_THRESHOLD_ERR;
+  } else if (abs(angle(R)) > 15.0) {
+    status = IncrementalStitcher::Status::EXCEEDS_X_THRESHOLD_ERR;
+  }
+
+  return status;
+}
+
+int main( int argc, char** argv ) {
   Config config;
-  Markers markers(config);
+  Markers markers(config, false);
   char key;
   namedWindow("Stitched Image");
   moveWindow("Stitched Image", 20,20);
@@ -168,7 +186,8 @@ int main( int argc, char** argv ) {
       dt = (getTime() - t1);
       dmtime.push_back(dt);
       LOG(INFO) << "DM Time: " << dt << endl;
-      if (status == IncrementalStitcher::Status::OK) {
+      if (status == IncrementalStitcher::Status::OK &&
+	  checkTransform(R, stitcher, config) == IncrementalStitcher::Status::OK) {
 	stitcher.composeImages(img1, img2, R);
 	stitcher.getNextBaseImage().copyTo(img1);
 	stitchedImg = stitcher.getStitchedImage();

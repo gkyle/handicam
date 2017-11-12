@@ -38,46 +38,6 @@ UMat Markers::getPerspective(UMat img, Point2f srcQuad[]) {
   return crop(dst);
 }
 
-/*
-UMat Markers::getPerspective2(UMat img, Point2f srcQuad[]) {
-  const float SCALE = 2.0f; 
-  const int W = image_width;
-  const int H = W*ratio;
-  float image_width_ = image_width;
-  cout << "2a: " << img.cols << endl;
-  Point c = intersect(srcQuad[0], srcQuad[1], srcQuad[2], srcQuad[3]);
-
-  float cpi = image_width_/markerboard_width;
-  float rpi = (image_width_*ratio/markerboard_height);
-
-  Point2f dstQuad[4];
-  dstQuad[0] = Point2f(0, 0);
-  dstQuad[1] = Point2f(image_width, 0);
-  dstQuad[2] = Point2f(image_width, image_width*ratio);
-  dstQuad[3] = Point2f(0, image_width*ratio);
-  Mat pmat = getPerspectiveTransform(srcQuad, dstQuad);
-
-  Point2f dstQuad2[4];
-  dstQuad2[0] = Point2f(W, H);
-  dstQuad2[1] = Point2f(image_width*SCALE, H);
-  dstQuad2[2] = Point2f(image_width*SCALE, image_width*ratio*SCALE);
-  dstQuad2[3] = Point2f(W, image_width*ratio*SCALE);
-  
-  Mat pmat2 = getPerspectiveTransform(srcQuad, dstQuad2);
-  UMat dst2;
-  cout << "WIDTH: " << image_width*(SCALE+1) << endl;
-  warpPerspective(img, dst2, pmat2,
-		  Size(image_width*(SCALE+1), image_width*ratio*(SCALE+1)), INTER_AREA);
-  imshow("dst2", imscale(600, dst2));
-  cout << "2: " << dst2.cols << endl;
-
-  dst2 = imscale(dst2.cols*(0.986), dst2);
-  cout << "2b: " << dst2.cols << endl;
-  imwrite("dst2.jpeg", dst2);
-  return dst2;
-}
-*/
-
 void Markers::storeRect(Point2f a, Point2f b, Point2f c, Point2f d) {
   rects.insert(rects.begin(), d);
   rects.insert(rects.begin(), c);
